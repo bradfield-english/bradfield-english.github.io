@@ -42,30 +42,6 @@ header .meta {
   color: #666;
 }
 
-nav {
-  margin-bottom: 2.5rem;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
-  font-size: 0.87rem;
-  line-height: 1.6;
-}
-nav .nav-label {
-  font-weight: 700;
-  color: #888;
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
-  font-size: 0.75rem;
-  display: block;
-  margin-bottom: 0.5rem;
-}
-nav a {
-  display: inline-block;
-  color: #1a56a0;
-  text-decoration: none;
-  margin-right: 0.9rem;
-  margin-bottom: 0.25rem;
-}
-nav a:hover { text-decoration: underline; }
-
 h2 {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
   font-size: 1.5rem;
@@ -373,6 +349,164 @@ hr {
   margin: 2.5rem 0;
 }
 
+/* ─── SIDEBAR NAVIGATION ───────────────────────────────── */
+:root {
+  --sb-w: 288px;
+  --c-foundations:  #1a2e44;
+  --c-concepts:     #2a6b5e;
+  --c-nonfiction:   #9c6b30;
+  --c-perspectives: #6d4c7d;
+  --c-poetry:       #8c3b52;
+  --c-mitty:        #2f4b7c;
+  --c-other:        #4a6b3a;
+  --c-portfolio:    #a05c00;
+}
+
+.sidebar {
+  position: fixed;
+  top: 0; left: 0;
+  width: var(--sb-w);
+  height: 100vh;
+  overflow-y: auto;
+  background: #fbfaf8;
+  border-right: 1px solid #e3e0d9;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+  padding: 1.4rem 0 3rem;
+  z-index: 40;
+}
+.sidebar .sb-head {
+  padding: 0 1.3rem 1rem;
+  border-bottom: 1px solid #eceae4;
+  margin-bottom: 0.5rem;
+}
+.sidebar .sb-title {
+  font-size: 1.05rem; font-weight: 700; color: #1a2e44; letter-spacing: -0.01em;
+}
+.sidebar .sb-sub {
+  font-size: 0.7rem; color: #999; text-transform: uppercase;
+  letter-spacing: 0.09em; margin-top: 0.3rem;
+}
+
+.nav-group { --c: #888; }
+.nav-group > summary {
+  list-style: none;
+  cursor: pointer;
+  padding: 0.5rem 1.2rem 0.5rem 1.05rem;
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: #555;
+  border-left: 4px solid var(--c);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  user-select: none;
+}
+.nav-group > summary::-webkit-details-marker { display: none; }
+.nav-group > summary::after {
+  content: "\203A";
+  font-size: 1rem;
+  line-height: 1;
+  color: #bbb;
+  transition: transform 0.15s ease;
+}
+.nav-group[open] > summary::after { transform: rotate(90deg); }
+.nav-group > summary:hover { background: #f2efe9; color: var(--c); }
+
+.nav-group a {
+  display: block;
+  padding: 0.34rem 1.2rem 0.34rem 1.65rem;
+  font-size: 0.83rem;
+  line-height: 1.35;
+  color: #3a3a3a;
+  text-decoration: none;
+  border-left: 4px solid transparent;
+}
+.nav-group a:hover { background: #f2efe9; color: var(--c); }
+.nav-group a.active {
+  color: var(--c);
+  font-weight: 700;
+  border-left-color: var(--c);
+  background: #f1eee8;
+}
+
+.nav-group[data-group="foundations"]  { --c: var(--c-foundations); }
+.nav-group[data-group="concepts"]     { --c: var(--c-concepts); }
+.nav-group[data-group="nonfiction"]   { --c: var(--c-nonfiction); }
+.nav-group[data-group="perspectives"] { --c: var(--c-perspectives); }
+.nav-group[data-group="poetry"]       { --c: var(--c-poetry); }
+.nav-group[data-group="mitty"]        { --c: var(--c-mitty); }
+.nav-group[data-group="other"]        { --c: var(--c-other); }
+.nav-group[data-group="portfolio"]    { --c: var(--c-portfolio); }
+
+/* Per-group colour on each section's header bar */
+#overview .week-header,
+#assessments .week-header,
+#resources .week-header       { background: var(--c-foundations); }
+#journey-types .week-header,
+#symbolism .week-header       { background: var(--c-concepts); }
+#nonfiction .week-header      { background: var(--c-nonfiction); }
+#perspectives .week-header    { background: var(--c-perspectives); }
+#road-not-taken .week-header,
+#ulysses .week-header         { background: var(--c-poetry); }
+#walter-mitty .week-header,
+#mitty-unlived .week-header,
+#mitty-quest .week-header,
+#mitty-greenland .week-header,
+#mitty-journey .week-header,
+#mitty-real-life .week-header,
+#mitty-quintessence .week-header,
+#mitty-themes .week-header,
+#thurber .week-header         { background: var(--c-mitty); }
+#lost-on-earth .week-header,
+#travel-fiction .week-header,
+#road-trip-tropes .week-header{ background: var(--c-other); }
+#portfolio .week-header       { background: var(--c-portfolio); }
+
+.section-block { scroll-margin-top: 1.5rem; }
+
+/* Mobile top bar + drawer scrim (hidden on desktop) */
+.mobilebar {
+  display: none;
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: #1a2e44;
+  color: #fff;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.55rem 0.9rem;
+  margin: 0 -1.2rem 1rem;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+}
+.mobilebar .hamburger {
+  background: none; border: none; color: #fff;
+  font-size: 1.4rem; line-height: 1; cursor: pointer; padding: 0.1rem 0.4rem;
+}
+.mobilebar .mb-title { font-weight: 700; font-size: 1rem; }
+.scrim {
+  display: none;
+  position: fixed; inset: 0;
+  background: rgba(0,0,0,0.4);
+  z-index: 39;
+}
+
+@media (min-width: 1001px) {
+  body { padding-left: calc(var(--sb-w) + 1.2rem); }
+}
+@media (max-width: 1000px) {
+  .sidebar {
+    transform: translateX(-100%);
+    transition: transform 0.22s ease;
+    box-shadow: 2px 0 14px rgba(0,0,0,0.18);
+  }
+  body.nav-open .sidebar { transform: translateX(0); }
+  body.nav-open .scrim { display: block; }
+  .mobilebar { display: flex; }
+  .section-block { scroll-margin-top: 3.6rem; }
+}
+
 @media (max-width: 600px) {
   body { font-size: 16px; }
   header h1 { font-size: 1.7rem; }
@@ -391,6 +525,7 @@ hr {
     background: white;
     color: #000;
     padding: 0;
+    padding-left: 0 !important;
   }
 
   .page {
@@ -399,6 +534,7 @@ hr {
   }
 
   nav { display: none; }
+  .sidebar, .mobilebar, .scrim { display: none !important; }
 
   header {
     border-bottom: 1.5pt solid #1a2e44;
@@ -450,32 +586,80 @@ hr {
 </style>
 </head>
 <body>
+
+<aside class="sidebar" id="sidebar" aria-label="Unit contents">
+  <div class="sb-head">
+    <div class="sb-title">On the Road</div>
+    <div class="sb-sub">Year 11 English Studies</div>
+  </div>
+
+  <details class="nav-group" data-group="foundations" open>
+    <summary>Foundations</summary>
+    <a href="#overview">Overview</a>
+    <a href="#assessments">Assessment</a>
+    <a href="#resources">Texts &amp; Resources</a>
+  </details>
+
+  <details class="nav-group" data-group="concepts">
+    <summary>Concepts</summary>
+    <a href="#journey-types">What Is a Journey?</a>
+    <a href="#symbolism">The Symbolism of Travel</a>
+  </details>
+
+  <details class="nav-group" data-group="nonfiction">
+    <summary>Non-Fiction</summary>
+    <a href="#nonfiction">Travel Writing</a>
+  </details>
+
+  <details class="nav-group" data-group="perspectives">
+    <summary>Perspectives</summary>
+    <a href="#perspectives">Whose Journey?</a>
+  </details>
+
+  <details class="nav-group" data-group="poetry">
+    <summary>Poetry</summary>
+    <a href="#road-not-taken">The Road Not Taken</a>
+    <a href="#ulysses">Ulysses</a>
+  </details>
+
+  <details class="nav-group" data-group="mitty">
+    <summary>Walter Mitty</summary>
+    <a href="#walter-mitty">Introduction</a>
+    <a href="#mitty-unlived">1 &middot; The Unlived Life</a>
+    <a href="#mitty-quest">2 &middot; The Quest &amp; the MacGuffin</a>
+    <a href="#mitty-greenland">3 &middot; Greenland</a>
+    <a href="#mitty-journey">4 &middot; The Journey Continues</a>
+    <a href="#mitty-real-life">5 &middot; Meeting Sean</a>
+    <a href="#mitty-quintessence">6 &middot; The Quintessence of Life</a>
+    <a href="#mitty-themes">7 &middot; Themes &amp; Techniques</a>
+    <a href="#thurber">Source: Thurber's Story</a>
+  </details>
+
+  <details class="nav-group" data-group="other">
+    <summary>Other Journeys</summary>
+    <a href="#lost-on-earth">Lost on Earth</a>
+    <a href="#travel-fiction">Travel Fiction</a>
+    <a href="#road-trip-tropes">Road Trip Tropes</a>
+  </details>
+
+  <details class="nav-group" data-group="portfolio">
+    <summary>Portfolio</summary>
+    <a href="#portfolio">Portfolio Tasks</a>
+  </details>
+</aside>
+
+<div class="mobilebar">
+  <button class="hamburger" id="navToggle" aria-label="Toggle contents" aria-expanded="false">&#9776;</button>
+  <span class="mb-title">On the Road</span>
+</div>
+<div class="scrim" id="navScrim"></div>
+
 <div class="page">
 
 <header>
   <h1>On the Road</h1>
   <p class="meta">Year 11 English Studies &mdash; Bradfield Senior College &mdash; Term 3, 2026</p>
 </header>
-
-<nav>
-  <span class="nav-label">Jump to</span>
-  <a href="#overview">Overview</a>
-  <a href="#assessments">Assessment</a>
-  <a href="#resources">Texts &amp; Resources</a>
-  <a href="#journey-types">What Is a Journey?</a>
-  <a href="#symbolism">Symbolism of Travel</a>
-  <a href="#nonfiction">Non-Fiction Travel Writing</a>
-  <a href="#perspectives">Perspectives</a>
-  <a href="#road-not-taken">The Road Not Taken</a>
-  <a href="#ulysses">Ulysses</a>
-  <a href="#walter-mitty">The Secret Life of Walter Mitty</a>
-  <a href="#thurber">The Original Walter Mitty</a>
-  <a href="#lost-on-earth">Lost on Earth</a>
-  <a href="#travel-fiction">Travel Fiction</a>
-  <a href="#road-trip-tropes">Road Trip Tropes</a>
-  <a href="#portfolio">Portfolio Tasks</a>
-</nav>
-
 
 <!-- ════════════════════════════════════════════════════════
      OVERVIEW
@@ -1774,5 +1958,60 @@ To strive, to seek, to find, and not to yield.
 </section>
 
 </div><!-- end .page -->
+
+<script>
+(function () {
+  var links = Array.prototype.slice.call(document.querySelectorAll('.nav-group a'));
+  if (!links.length) return;
+
+  var map = {};
+  var sections = [];
+  links.forEach(function (a) {
+    var id = a.getAttribute('href').slice(1);
+    var sec = document.getElementById(id);
+    if (sec) { map[id] = a; sections.push(sec); }
+  });
+
+  var body = document.body;
+  var toggle = document.getElementById('navToggle');
+  var scrim = document.getElementById('navScrim');
+  var mq = window.matchMedia('(max-width: 1000px)');
+
+  function closeNav() {
+    body.classList.remove('nav-open');
+    if (toggle) toggle.setAttribute('aria-expanded', 'false');
+  }
+  if (toggle) toggle.addEventListener('click', function () {
+    var open = body.classList.toggle('nav-open');
+    toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+  });
+  if (scrim) scrim.addEventListener('click', closeNav);
+  links.forEach(function (a) {
+    a.addEventListener('click', function () { if (mq.matches) closeNav(); });
+  });
+
+  var current = null;
+  function onScroll() {
+    var pos = window.scrollY + 130;
+    var active = sections[0];
+    for (var i = 0; i < sections.length; i++) {
+      if (sections[i].offsetTop <= pos) active = sections[i];
+    }
+    if (!active || active === current) return;
+    current = active;
+    links.forEach(function (a) { a.classList.remove('active'); });
+    var link = map[active.id];
+    if (link) {
+      link.classList.add('active');
+      var grp = link.closest('.nav-group');
+      if (grp && !grp.open) grp.open = true;
+    }
+  }
+  window.addEventListener('scroll', onScroll, { passive: true });
+  window.addEventListener('resize', onScroll);
+  onScroll();
+})();
+</script>
+
 </body>
 </html>
