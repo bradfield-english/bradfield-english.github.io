@@ -621,6 +621,7 @@ figure figcaption {
   .week-links a[href]::after { content: ""; }
 }
 </style>
+<link rel="stylesheet" href="../../assets/submit-system.css">
 </head>
 <body>
 
@@ -2619,6 +2620,33 @@ Will be this darkness.
   onScroll();
 })();
 </script>
+
+<script>
+/* Per-unit config for the shared submission system (assets/submit-system.js).
+   Only these values change per unit; the Form tokens are shared site-wide. */
+window.UNIT_SETUP = {
+  year: 'Y11',
+  courseCode: '11ENS',
+  unitName: 'On the Road',
+  unitSlug: 'y11-on-the-road',
+  workbookFolderName: '11ENS On the Road — my work',
+  teachers: [
+    { id: 't01', label: 'Brenton' },   // ids must match the TeacherID->email table
+    { id: 't02', label: 'Phillip' }
+  ],
+  taskOverrides: [
+    ['Identify two techniques used in any of the unit texts', 'Externalising an inner journey'],
+    ['Make a list of all the different types of journey', 'Types of journey — audit'],
+    ['Read the opening extract linked above', 'Bryson — text analysis'],
+    ['Both Bryson and Kidd are writing non-fiction', 'Bryson & Kidd — comparison'],
+    ['Choose one moment from the diary', 'Captain Scott — diary response'],
+    ['In a short paragraph, respond to Bird', 'Isabella Bird — response to attitudes'],
+    ['What does this letter suggest about how nineteenth-century', 'Isabella Bird — the big idea'],
+    ['Write a short travel writing extract', 'Travel-writing extract']
+  ]
+};
+</script>
+<script src="../../assets/submit-system.js"></script>
 
 </body>
 </html>

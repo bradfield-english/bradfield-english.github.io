@@ -1,0 +1,30 @@
+/* Bradfield unit pages — student work-submission system (shared stylesheet).
+   Loaded on every unit page via <link>; behaviour lives in submit-system.js.
+   Do not fork per unit — edit here and it propagates to all units. */
+
+/* "My setup" sidebar panel (injected at the top of the sidebar) */
+.sb-setup { padding: 0.9rem 1.2rem 1rem; border-bottom: 1px solid #eceae4; margin-bottom: 0.5rem; }
+.sb-setup [hidden] { display: none !important; }
+.sb-field-label { display: block; font-size: 0.68rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: #888; margin: 0.55rem 0 0.25rem; }
+.sb-select, .sb-input { width: 100%; font-family: inherit; font-size: 0.83rem; color: #2a2a2a; padding: 0.4rem 0.5rem; border: 1px solid #d9d5cc; border-radius: 4px; background: #fff; }
+.sb-select:focus, .sb-input:focus { outline: 2px solid #7a9cc4; outline-offset: 0; border-color: #7a9cc4; }
+.sb-row { display: flex; gap: 0.35rem; margin-top: 0.1rem; }
+.sb-row .sb-input { flex: 1 1 auto; min-width: 0; }
+.sb-btn { font-family: inherit; font-size: 0.8rem; font-weight: 600; color: #1a2e44; background: transparent; border: 1px solid #cfd6df; border-radius: 4px; padding: 0.4rem 0.7rem; cursor: pointer; text-decoration: none; text-align: center; display: inline-block; }
+.sb-btn:hover { background: #f2efe9; border-color: #9aa7b5; color: #1a2e44; }
+.sb-btn-block { display: block; width: 100%; margin-top: 0.5rem; }
+.sb-btn-open { color: #2a6b5e; border-color: #c3d8d1; }
+.sb-btn-open:hover { background: #eef4f1; border-color: #2a6b5e; color: #2a6b5e; }
+.sb-btn-submit { color: #a05c00; font-weight: 700; }
+.sb-btn-submit:hover { background: #fff8ed; border-color: #a05c00; color: #a05c00; }
+.sb-link { font-family: inherit; font-size: 0.74rem; color: #7a9cc4; background: none; border: none; padding: 0.3rem 0; cursor: pointer; text-decoration: underline; }
+.sb-link:hover { color: #1a56a0; }
+.sb-help { font-size: 0.72rem; line-height: 1.5; color: #999; margin: 0.4rem 0 0; }
+.sb-help a { color: #7a9cc4; }
+.sb-note { font-size: 0.72rem; line-height: 1.5; color: #a05c00; margin: 0.4rem 0 0; }
+
+/* Per-task submit link (injected into hand-in task boxes) */
+.task-submit { margin-top: 0.85rem; text-align: right; }
+.task-submit a.submit-task { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif; font-size: 0.8rem; font-weight: 600; color: #a05c00; text-decoration: none; border-bottom: 1px solid transparent; }
+.task-submit a.submit-task:hover { border-bottom-color: #a05c00; }
+.task-submit-msg { display: block; text-align: right; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif; font-size: 0.75rem; color: #a05c00; margin-top: 0.25rem; }
