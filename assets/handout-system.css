@@ -1,0 +1,177 @@
+/* Bradfield unit pages — per-section handout printing (shared stylesheet).
+   Loaded on every unit page via <link>; behaviour lives in handout-system.js.
+   Do not fork per unit — edit here and it propagates to all units.
+
+   How it works: handout-system.js adds `.handout` to <body> and
+   `.handout-target` to one `.section-block`, then calls window.print().
+   Everything below is scoped to that pair, so ordinary whole-unit printing
+   (Ctrl/Cmd-P) behaves exactly as it did before this system existed. */
+
+/* ─── Screen: the per-section button in each week-header ─────────── */
+.week-header { position: relative; }
+
+.handout-btn {
+  position: absolute;
+  top: 0.7rem;
+  right: 0.9rem;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  color: #fff;
+  background: rgba(255, 255, 255, 0.14);
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  border-radius: 3px;
+  padding: 0.2rem 0.55rem;
+  cursor: pointer;
+  opacity: 0.75;
+}
+.handout-btn:hover { background: rgba(255, 255, 255, 0.26); opacity: 1; }
+.handout-btn:focus-visible { outline: 2px solid #fff; outline-offset: 1px; opacity: 1; }
+
+@media (max-width: 600px) {
+  .handout-btn { position: static; display: block; margin-top: 0.6rem; }
+}
+
+/* Screen: the per-subsection button on each h3.subsection heading.
+   Quieter than the section button — this is the finer-grained action, and
+   there are far more of them (57 vs 25 on the On the Road page). */
+h3.subsection { position: relative; padding-right: 7rem; }
+
+.handout-btn-sub {
+  position: absolute;
+  right: 0;
+  bottom: 0.15rem;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  color: #7a9cc4;
+  background: none;
+  border: none;
+  border-bottom: 1px solid transparent;
+  padding: 0 0 1px;
+  cursor: pointer;
+  opacity: 0;
+}
+h3.subsection:hover .handout-btn-sub,
+.handout-btn-sub:focus-visible { opacity: 1; }
+.handout-btn-sub:hover { color: #1a56a0; border-bottom-color: #1a56a0; }
+
+/* Touch devices get no hover — keep it permanently visible there */
+@media (hover: none) {
+  .handout-btn-sub { opacity: 0.8; }
+}
+@media (max-width: 600px) {
+  h3.subsection { padding-right: 0; }
+  .handout-btn-sub { position: static; display: block; margin-top: 0.35rem; opacity: 0.8; }
+}
+
+/* Ruled answer lines — never shown on screen, only in handout print.
+   Built from borders, not a background image, so they survive Chrome's
+   "Background graphics" checkbox being left off in the print dialog. */
+.answer-lines { display: none; }
+.answer-lines .rule { height: 26px; border-bottom: 1px solid #bbb; }
+.answer-lines-label {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: #888;
+  margin-bottom: 0.3rem;
+}
+
+/* ─── Print ──────────────────────────────────────────────────────── */
+@media print {
+  /* The buttons themselves are never part of any printout, and the space
+     reserved for the subsection one is reclaimed */
+  .handout-btn, .handout-btn-sub { display: none !important; }
+  h3.subsection { padding-right: 0; }
+
+  /* Handout mode: print the target section alone.
+     The forced break must be cleared as well as the display, not just
+     hidden: the site-wide rule puts `break-before: page` on EVERY
+     .section-block, and a display:none element carrying a forced break can
+     still be counted during Chrome's print-preview pagination pass — which
+     is what put a stack of blank leading space above page 1 in the preview
+     while the final PDF came out correct. */
+  body.handout .section-block:not(.handout-target) {
+    display: none !important;
+    break-before: auto !important;
+    page-break-before: auto !important;
+  }
+
+  /* Subsection mode: within that section, print only the tagged range —
+     the h3 and its following siblings up to the next h3.subsection. The
+     week-header stays for context (it names the parent section).
+     Written as :not(…) so shown elements keep their own display value —
+     tables and lists break if you force `display: block` back onto them. */
+  body.handout-sub .handout-target > *:not(.handout-part):not(.week-header) {
+    display: none !important;
+    break-before: auto !important;
+    page-break-before: auto !important;
+  }
+
+  /* Same for the hidden subsection headings themselves — they each carry a
+     forced break from the site-wide `h3.subsection` rule */
+  body.handout-sub h3.subsection:not(.handout-part) {
+    break-before: auto !important;
+    page-break-before: auto !important;
+  }
+
+  /* The opening h3 must not fire the site-wide
+     `h3.subsection { break-before: page }` rule and emit a blank first page */
+  body.handout-sub h3.subsection.handout-part-first {
+    break-before: auto !important;
+    page-break-before: auto !important;
+    margin-top: 0;
+  }
+
+  /* …and don't emit a leading blank page from the site-wide
+     `.section-block { break-before: page }` rule */
+  body.handout .handout-target {
+    break-before: auto !important;
+    page-break-before: auto !important;
+    margin-top: 0;
+  }
+
+  /* Same for a subsection heading that opens the section */
+  body.handout .handout-target > h3.subsection:first-of-type {
+    break-before: auto !important;
+    page-break-before: auto !important;
+  }
+
+  /* Compact running header — the unit name, not a title page.
+     padding-top must be zeroed explicitly: the screen rule is 2.5rem and
+     the site-wide print block only resets the bottom. */
+  body.handout header h1 { font-size: 13pt; }
+  body.handout header {
+    padding-top: 0;
+    padding-bottom: 4pt;
+    margin-bottom: 10pt;
+  }
+
+  /* Keep a poem whole where it fits. Browsers override break-inside when
+     the block is taller than a page, so long extracts still break — but a
+     sonnet never gets split across two sheets. */
+  body.handout .poem {
+    break-inside: avoid;
+    page-break-inside: avoid;
+    orphans: 3;
+    widows: 3;
+  }
+
+  /* On paper these are dead ends: a submit link, and the bracketed URLs
+     the site-wide print CSS appends after every href */
+  body.handout .task-submit { display: none !important; }
+  body.handout a[href]::after { content: "" !important; }
+
+  /* Ruled writing space under each task */
+  body.handout .answer-lines {
+    display: block;
+    margin: 0.5rem 0 1.4rem;
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+}

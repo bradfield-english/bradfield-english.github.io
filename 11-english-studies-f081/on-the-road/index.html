@@ -580,16 +580,22 @@ figure figcaption {
   }
   header .meta { color: #555; }
 
-  /* Every major section starts on a new page */
+  /* Every major section starts on a new page.
+     margin-top must be zeroed: the screen rule is 3rem, and a top margin
+     is NOT truncated at a forced break — it lands at the top of the new
+     page, on top of the 20mm @page margin. Left in, it adds ~13mm above
+     every section and costs a whole extra page across the unit. */
   .section-block {
     break-before: page;
     page-break-before: always;
+    margin-top: 0;
   }
 
-  /* Every named subsection (h3) also starts on a new page */
+  /* Every named subsection (h3) also starts on a new page — same reason */
   h3.subsection {
     break-before: page;
     page-break-before: always;
+    margin-top: 0;
   }
 
   /* Preserve background colours for callout boxes */
@@ -622,6 +628,7 @@ figure figcaption {
 }
 </style>
 <link rel="stylesheet" href="../../assets/submit-system.css">
+<link rel="stylesheet" href="../../assets/handout-system.css">
 </head>
 <body>
 
@@ -2647,6 +2654,7 @@ window.UNIT_SETUP = {
 };
 </script>
 <script src="../../assets/submit-system.js"></script>
+<script src="../../assets/handout-system.js"></script>
 
 </body>
 </html>
